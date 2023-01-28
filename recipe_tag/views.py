@@ -14,11 +14,17 @@ import json
 @api_view(['GET', 'POST'])
 @authentication_classes([])
 def recipeTags(request):
+    # get all recipe tags
+    # returns: 
+    #   JSON of all recipe tags
     if request.method == 'GET':
         recipeTags = RecipeTag.objects.all()
         serializer = RecipeTagSerializer(recipeTags, many=True)
         return Response(serializer.data)
     
+    # add a tag to a recipe
+    # returns:
+    #   JSON of a added tag or HTTP error
     elif request.method == 'POST':
         form = RecipeTagForm(request.data)
 
@@ -37,6 +43,11 @@ def recipeTags(request):
 
 @api_view(['DELETE'])
 @authentication_classes([])
+# delete a tag from a recipe
+# params:
+#   pk (number): id of recipe tag stored in the database table
+# returns:
+#   string: Deleted Successfully
 def set_action(request, pk):
     if request.method == 'DELETE':
         recipeTag = get_object_or_404(RecipeTag, pk=pk)
